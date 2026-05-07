@@ -12,7 +12,7 @@ npm install
 npm run dev
 ```
 
-Opens on http://localhost:5173. The schedule lives in `src/schedule.ts` — edit
+Opens on http://localhost:8188. The schedule lives in `src/schedule.ts` — edit
 there until I wire up a real backend.
 
 ## Status
