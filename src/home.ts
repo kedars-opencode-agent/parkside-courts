@@ -8,7 +8,7 @@ export function renderHome(root: HTMLElement, onReserve: () => void): void {
         </div>
         <nav class="topnav">
           <a href="#about">About</a>
-          <a href="#calendar">Calendar</a>
+          <a href="#calendar" id="nav-calendar">Calendar</a>
           <a href="#contact">Contact</a>
         </nav>
       </header>
@@ -37,4 +37,10 @@ export function renderHome(root: HTMLElement, onReserve: () => void): void {
 
   const cta = root.querySelector<HTMLButtonElement>('#cta-reserve');
   cta?.addEventListener('click', onReserve);
+
+  const navCalendar = root.querySelector<HTMLAnchorElement>('#nav-calendar');
+  navCalendar?.addEventListener('click', (e) => {
+    e.preventDefault();
+    onReserve();
+  });
 }

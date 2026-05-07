@@ -60,7 +60,7 @@ export function renderBook(root: HTMLElement, state: AppState, onHome: () => voi
         </div>
         <nav class="topnav">
           <a href="#about">About</a>
-          <a href="#calendar">Calendar</a>
+          <a href="#calendar" id="nav-calendar">Calendar</a>
           <a href="#contact">Contact</a>
         </nav>
       </header>
@@ -96,6 +96,10 @@ export function renderBook(root: HTMLElement, state: AppState, onHome: () => voi
   `;
 
   root.querySelector<HTMLElement>('#back-home')?.addEventListener('click', onHome);
+
+  root.querySelector<HTMLAnchorElement>('#nav-calendar')?.addEventListener('click', (e) => {
+    e.preventDefault();
+  });
 
   root.querySelector<HTMLInputElement>('#filter-date')?.addEventListener('change', (e) => {
     onState({ date: (e.target as HTMLInputElement).value });
