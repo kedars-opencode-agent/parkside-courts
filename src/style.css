@@ -293,6 +293,31 @@ body {
   border-color: var(--accent);
 }
 
+/* ---------- Stats banner ---------- */
+.book__stats {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  letter-spacing: 0.01em;
+  margin-top: -14px;
+}
+
+.book__stats strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.book__stats-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(191, 226, 107, 0.18);
+}
+
 /* ---------- Court grid ---------- */
 .court-grid {
   display: grid;

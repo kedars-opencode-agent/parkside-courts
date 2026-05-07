@@ -38,6 +38,12 @@ export function renderBook(root: HTMLElement, state: AppState, onHome: () => voi
     (state.courtFilter === 'any' || s.courtId === state.courtFilter)
   );
 
+  const expectedCount = SCHEDULE.filter(s =>
+    s.available &&
+    s.date === state.date &&
+    (state.courtFilter === 'any' || s.courtId === state.courtFilter)
+  ).length;
+
   const courtOptions = ['<option value="any">Any court</option>']
     .concat(COURTS.map(c => `<option value="${escapeHtml(c.id)}"${state.courtFilter === c.id ? ' selected' : ''}>${escapeHtml(c.name)}</option>`))
     .join('');
@@ -80,6 +86,11 @@ export function renderBook(root: HTMLElement, state: AppState, onHome: () => voi
             <span class="filters__label">Court</span>
             <select class="filters__input" id="filter-court">${courtOptions}</select>
           </label>
+        </div>
+
+        <div class="book__stats">
+          <span class="book__stats-dot" aria-hidden="true"></span>
+          <strong>${expectedCount}</strong> slot${expectedCount === 1 ? '' : 's'} open ${state.courtFilter === 'any' ? 'across all courts' : 'on ' + escapeHtml(COURTS.find(c => c.id === state.courtFilter)?.name ?? '')} today
         </div>
 
         ${grid}
