@@ -14,9 +14,9 @@ export function renderHome(root: HTMLElement, onReserve: () => void): void {
       </header>
 
       <main class="hero">
-        <p class="hero__eyebrow">Neighborhood Pickleball Club</p>
+        <p class="hero__eyebrow">Neighborhood Badminton Club</p>
         <h1 class="hero__title">
-          Parkside <span class="hero__title-accent">Pickleball</span> Club
+          Parkside <span class="hero__title-accent">Badminton</span> Club
         </h1>
         <p class="hero__meta">Saturday &middot; Open 6 AM – 10 PM</p>
         <button class="btn btn--primary btn--lg" id="cta-reserve">

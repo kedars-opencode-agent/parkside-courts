@@ -1,6 +1,6 @@
 # Parkside Courts
 
-Small reservation app for the neighborhood pickleball club. My folks asked if I
+Small reservation app for the neighborhood badminton club. My folks asked if I
 could throw something together so members could grab evening slots without the
 spreadsheet juggling, and this is what I came up with on a few weekends. Also a
 fun excuse to play with TypeScript.
