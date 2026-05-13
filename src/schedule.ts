@@ -17,15 +17,21 @@ function isoForOffset(offset: number): string {
 
 const TODAY = isoForOffset(0);
 
-// Today's slots are pinned: the original 8 hand-curated by the club.
+// Today's slots are pinned: hand-curated across morning / afternoon /
+// evening so the "group by time of day" feature has something to
+// actually group. Without slots in all three windows, F2 would look
+// like a no-op on the visible page.
 const todaySlots: Slot[] = [
+  // Morning
+  { courtId: 'court-1', courtName: 'Court 1', time: '08:00', date: TODAY, available: true },
+  { courtId: 'court-2', courtName: 'Court 2', time: '09:30', date: TODAY, available: true },
+  // Afternoon
+  { courtId: 'court-1', courtName: 'Court 1', time: '13:00', date: TODAY, available: true },
+  { courtId: 'court-3', courtName: 'Court 3', time: '14:30', date: TODAY, available: true },
+  { courtId: 'court-2', courtName: 'Court 2', time: '16:00', date: TODAY, available: true },
+  // Evening
   { courtId: 'court-1', courtName: 'Court 1', time: '18:00', date: TODAY, available: true },
-  { courtId: 'court-1', courtName: 'Court 1', time: '18:30', date: TODAY, available: true },
-  { courtId: 'court-1', courtName: 'Court 1', time: '19:00', date: TODAY, available: true },
-  { courtId: 'court-2', courtName: 'Court 2', time: '18:00', date: TODAY, available: true },
   { courtId: 'court-2', courtName: 'Court 2', time: '18:30', date: TODAY, available: true },
-  { courtId: 'court-3', courtName: 'Court 3', time: '18:30', date: TODAY, available: true },
-  { courtId: 'court-3', courtName: 'Court 3', time: '19:00', date: TODAY, available: true },
   { courtId: 'court-3', courtName: 'Court 3', time: '19:30', date: TODAY, available: true },
 ];
 
