@@ -140,7 +140,7 @@ export function renderBook(root: HTMLElement, state: AppState, onHome: () => voi
         <div class="filters">
           <label class="filters__field">
             <span class="filters__label">Date</span>
-            <input class="filters__input" type="date" id="filter-date" value="${escapeHtml(state.date)}" />
+            <input class="filters__input" type="date" id="filter-date" value="${escapeHtml(state.date)}" min="${new Date().toISOString().slice(0, 10)}" />
           </label>
           <label class="filters__field">
             <span class="filters__label">Court</span>
