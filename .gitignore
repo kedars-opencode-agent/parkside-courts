@@ -3,4 +3,5 @@ dist
 .DS_Store
 *.local
 .vite
+.vite-dev.log
 .claude/
