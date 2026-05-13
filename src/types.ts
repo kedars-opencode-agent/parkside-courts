@@ -8,8 +8,17 @@ export interface Slot {
 
 export type View = 'home' | 'book';
 
+export interface ReservingSlot {
+  courtId: string;
+  courtName: string;
+  time: string;
+  date: string;
+}
+
 export interface AppState {
   view: View;
   date: string;
   courtFilter: string; // "any" or a courtId
+  reserving: ReservingSlot | null;
+  toast: string | null;
 }

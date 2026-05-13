@@ -10,6 +10,8 @@ const state: AppState = {
   view: 'home',
   date: new Date().toISOString().slice(0, 10),
   courtFilter: 'any',
+  reserving: null,
+  toast: null,
 };
 
 function render(): void {
