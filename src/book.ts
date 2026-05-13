@@ -91,7 +91,7 @@ export function renderBook(root: HTMLElement, state: AppState, onHome: () => voi
     escHandler = null;
   }
 
-  const slots = SCHEDULE.filter(s => s.isAvailable === true);
+  const slots = SCHEDULE.filter(s => s.available === true);
 
   const filtered = slots.filter(s =>
     s.date === state.date &&
