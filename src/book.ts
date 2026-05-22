@@ -1,9 +1,28 @@
 import { SCHEDULE, COURTS } from './schedule';
 import type { AppState, Slot } from './types';
 
+/** Big celebratory confirmation modal — replaces the old corner toast.
+ *  Reuses the same .modal-overlay / .modal frame the reservation form
+ *  uses so the visual language is consistent. Auto-dismisses after a
+ *  brief read (configured in the render's setTimeout) so the operator
+ *  doesn't have to click anything to clear it. */
+function confirmMarkup(message: string): string {
+  return `
+    <div class="modal-overlay" id="confirm-overlay">
+      <div class="modal modal--confirm" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+        <div class="confirm__check" aria-hidden="true">✓</div>
+        <h2 class="confirm__title" id="confirm-title">Reserved!</h2>
+        <p class="confirm__msg">${escapeHtml(message)}</p>
+        <button type="button" class="btn btn--primary confirm__done" id="confirm-done">Done</button>
+      </div>
+    </div>
+  `;
+}
+
 let escHandler: ((e: KeyboardEvent) => void) | null = null;
 let toastTimer: ReturnType<typeof setTimeout> | null = null;
 let activeToastFor: string | null = null;
+let confirmEscHandler: ((e: KeyboardEvent) => void) | null = null;
 
 function fmtTime(t: string): string {
   const [h, m] = t.split(':').map(Number);
@@ -90,6 +109,10 @@ export function renderBook(root: HTMLElement, state: AppState, onHome: () => voi
     document.removeEventListener('keydown', escHandler);
     escHandler = null;
   }
+  if (confirmEscHandler) {
+    document.removeEventListener('keydown', confirmEscHandler);
+    confirmEscHandler = null;
+  }
 
   const slots = SCHEDULE.filter(s => s.isAvailable === true);
 
@@ -165,7 +188,7 @@ export function renderBook(root: HTMLElement, state: AppState, onHome: () => voi
       </footer>
     </div>
     ${state.reserving ? modalMarkup(state.reserving) : ''}
-    ${state.toast ? `<div class="toast" role="status"><span class="toast__dot" aria-hidden="true"></span>${escapeHtml(state.toast)}</div>` : ''}
+    ${state.toast ? confirmMarkup(state.toast) : ''}
   `;
 
   root.querySelector<HTMLElement>('#back-home')?.addEventListener('click', onHome);
@@ -234,11 +257,34 @@ export function renderBook(root: HTMLElement, state: AppState, onHome: () => voi
   if (state.toast && state.toast !== activeToastFor) {
     if (toastTimer) clearTimeout(toastTimer);
     activeToastFor = state.toast;
+    // 5s gives the audience time to read the big confirmation modal
+    // before it fades. Operator / cu_agent doesn't need to click
+    // anything — auto-dismisses cleanly.
     toastTimer = setTimeout(() => {
       activeToastFor = null;
       toastTimer = null;
       onState({ toast: null });
-    }, 3200);
+    }, 5000);
+  }
+
+  // Click-to-dismiss affordances. Wired on every render where the
+  // confirmation is showing (not just the first), since renderBook
+  // rebuilds innerHTML and wipes listeners. Mirrors how the form
+  // modal handles re-attachment.
+  if (state.toast) {
+    const dismiss = (): void => {
+      if (toastTimer) { clearTimeout(toastTimer); toastTimer = null; }
+      activeToastFor = null;
+      onState({ toast: null });
+    };
+    root.querySelector<HTMLElement>('#confirm-overlay')?.addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) dismiss();
+    });
+    root.querySelector<HTMLButtonElement>('#confirm-done')?.addEventListener('click', dismiss);
+    confirmEscHandler = (e: KeyboardEvent): void => {
+      if (e.key === 'Escape') dismiss();
+    };
+    document.addEventListener('keydown', confirmEscHandler);
   }
   if (!state.toast) activeToastFor = null;
 }
